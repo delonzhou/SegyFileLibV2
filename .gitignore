@@ -1,0 +1,6 @@
+Debug/*
+Release/*
+SegyFileLib/Debug/*
+SegyFileLib/Release/*
+*.obj
+build*
