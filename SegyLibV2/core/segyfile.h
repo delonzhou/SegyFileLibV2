@@ -31,7 +31,7 @@ public:
         _headerCache.addObserver(this);
 	}
 
-	SegyFile(String path,String mode="rw", const FieldMapper segyHeaderMapper = FieldMapper(), const FieldMapper segyTraceHeaderMapper = FieldMapper(), Endian endian = ENDIAN_BIG):
+    SegyFile(String path,String mode="rw", const FieldMapper segyHeaderMapper = FieldMapper(), const FieldMapper segyTraceHeaderMapper = FieldMapper(), Endian endian = Endian::ENDIAN_BIG):
         _isOpen(false)
 	{
 		initHeaderMapper(segyHeaderMapper);
@@ -46,9 +46,9 @@ public:
 	}
 
 	//Открытие файла
-	void openFile(String path, String mode = "rw", Endian endian = ENDIAN_BIG){
+    void openFile(String path, String mode = "rw", Endian endian = Endian::ENDIAN_BIG){
 		if (isOpen())throw;
-		_endian = (endian == ENDIAN_UNDEFINED) ? ENDIAN_BIG : endian;
+        _endian = (endian == Endian::ENDIAN_UNDEFINED) ? Endian::ENDIAN_BIG : endian;
 		if (mode == "w") _mode = Mode(false, true);
 		else if (mode == "r")_mode = Mode(true, false);
 		else if (mode == "rw" || mode == "wr") _mode = Mode(true, true);

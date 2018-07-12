@@ -179,6 +179,28 @@ static inline void getFileName(const std::string& path,std::string &fileName){
     }
 }
 
+#if defined(_WIN32) || defined(_WIN64)
+
+    static inline std::wstring utf8FilePathToPlatformFilePath(const std::string& utf8Path){
+        std::wstring ret;
+        int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), NULL, 0);
+        if (len > 0)
+        {
+            ret.resize(len);
+            MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), &ret[0], len);
+        }
+        return ret;
+    }
+    
+#elif defined(__unix__)
+
+    static inline std::string utf8FilePathToPlatformFilePath(const std::string& utf8Path){
+        return utf8Path;
+    }
+
+#endif
+
+
 }
 
 #endif // TETRAKA_H

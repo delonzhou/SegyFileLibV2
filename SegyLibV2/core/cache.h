@@ -16,7 +16,7 @@ class IObservable{
 public:
 	virtual void addObserver(IObserver* observer) = 0;
 	virtual void removeObserver(IObserver* observer) = 0;
-	virtual void notifyObservers() = 0;
+    virtual void notifyObservers()const = 0;
 };
 
 template<class Key, class Value>
@@ -153,8 +153,8 @@ public:
 		observers.erase(it);
 	}
 
-	virtual void notifyObservers(){
-		for (std::list<IObserver*>::iterator it = observers.begin(); it != observers.end(); ++it){
+    virtual void notifyObservers()const{
+        for (std::list<IObserver*>::const_iterator it= observers.begin(); it != observers.end(); ++it){
 			(*it)->handleEvent();
 		}
 	}

@@ -5,7 +5,7 @@
 
 int getFormatSize(Format format){
     static const int formatSize[]={0,4,4,2,4,4,0,0,1,8};
-    return formatSize[format];
+    return formatSize[static_cast<int>(format)];
 }
 
 void revert(byte* buf,int length){
@@ -20,7 +20,7 @@ void revert(byte* buf,int length){
 bool isPositiveInt(const byte *buf,int length,Endian endian=currentEndian){
     const byte *c;
 
-    if(endian==ENDIAN_LITTLE) c=buf+length-1;
+    if(endian==Endian::ENDIAN_LITTLE) c=buf+length-1;
     else c=buf;
 
     if(*c>>7) return false;
@@ -38,7 +38,7 @@ int bytesToSignedInt(const byte *buf,size_t length,Endian endian){
 
     byte *resByte=(byte*)&res;
 
-    if(currentEndian==ENDIAN_LITTLE){
+    if(currentEndian==Endian::ENDIAN_LITTLE){
         if(currentEndian==endian){
             memcpy((void*)&res,buf,length);
         }else{
@@ -46,7 +46,7 @@ int bytesToSignedInt(const byte *buf,size_t length,Endian endian){
                 resByte[i]=buf[length-1-i];
         }
     }else{
-        if(currentEndian==ENDIAN_BIG){
+        if(currentEndian==Endian::ENDIAN_BIG){
             memcpy(resByte+(sizeof(int)-length),buf,length);
         }else{
             for(size_t i=0;i<length;++i)
@@ -141,17 +141,17 @@ double bytesToDoubleFrom4FixedPoint(const byte* buf,Endian endian) {
 
 double bytesToDouble(const byte *buf,Format format,Endian endian){
     switch(format){
-        case FORMAT_IBM:
+        case Format::FORMAT_IBM:
             return bytesToDoubleFromIBM(buf,endian);
-        case FORMAT_4IEEE:
+        case Format::FORMAT_4IEEE:
             return bytesToDoubleFrom4IEEE(buf,endian);
-        case FORMAT_4INT:
-        case FORMAT_2INT:
-        case FORMAT_1INT:
+        case Format::FORMAT_4INT:
+        case Format::FORMAT_2INT:
+        case Format::FORMAT_1INT:
             return bytesToSignedInt(buf,getFormatSize(format),endian);
-        case FORMAT_4FIXEDPOINT:
+        case Format::FORMAT_4FIXEDPOINT:
             return bytesToDoubleFrom4FixedPoint(buf,endian);
-        case FORMAT_8IEEE:
+        case Format::FORMAT_8IEEE:
             return bytesToDoubleFrom8IEEE(buf,endian);
         default:
             return bytesToDoubleFromIBM(buf,endian);
@@ -170,13 +170,13 @@ void intToBytesSignedInt(const int num,byte* out,int length,Endian endian){
 	if (inum < 0)for (int i = 0; i < length; ++i)out[i] = 255;
     byte* bytes=(byte*)&inum;
 
-    if(currentEndian==ENDIAN_BIG && endian==ENDIAN_BIG)
+    if(currentEndian==Endian::ENDIAN_BIG && endian==Endian::ENDIAN_BIG)
         for(int i=0;i<min(length,(int)sizeof(inum));++i)out[length-1-i]=bytes[sizeof(inum)-1-i];
-    if(currentEndian==ENDIAN_BIG && endian==ENDIAN_LITTLE)
+    if(currentEndian==Endian::ENDIAN_BIG && endian==Endian::ENDIAN_LITTLE)
         for(int i=0;i<min(length,(int)sizeof(inum));++i)out[i]=bytes[sizeof(inum)-1-i];
-    if(currentEndian==ENDIAN_LITTLE && endian==ENDIAN_BIG)
+    if(currentEndian==Endian::ENDIAN_LITTLE && endian==Endian::ENDIAN_BIG)
         for(int i=0;i<min(length,(int)sizeof(inum));++i)out[length-1-i]=bytes[i];
-    if(currentEndian==ENDIAN_LITTLE && endian==ENDIAN_LITTLE)
+    if(currentEndian==Endian::ENDIAN_LITTLE && endian==Endian::ENDIAN_LITTLE)
         for(int i=0;i<min(length,(int)sizeof(inum));++i)out[i]=bytes[i];
 }
 
@@ -262,25 +262,25 @@ void doubleToBytes4FixedPoint(const double num,byte* out,Endian endian){
 void doubleToBytes(const double num,byte* out,Format format,Endian endian){
 
     switch(format){
-        case FORMAT_IBM:
+        case Format::FORMAT_IBM:
             doubleToBytesIBM(num,out,endian);
             break;
-        case FORMAT_4IEEE:
+        case Format::FORMAT_4IEEE:
             doubleToBytes4IEEE(num,out,endian);
             break;
-        case FORMAT_8IEEE:
+        case Format::FORMAT_8IEEE:
             doubleToBytes8IEEE(num,out,endian);
             break;
-        case FORMAT_4INT:
+        case Format::FORMAT_4INT:
             doubleToBytesSignedInt(num,out,4,endian);
             break;
-        case FORMAT_2INT:
+        case Format::FORMAT_2INT:
             doubleToBytesSignedInt(num,out,2,endian);
             break;
-        case FORMAT_1INT:
+        case Format::FORMAT_1INT:
             doubleToBytesSignedInt(num,out,1,endian);
             break;
-        case FORMAT_4FIXEDPOINT:
+        case Format::FORMAT_4FIXEDPOINT:
             doubleToBytes4FixedPoint(num,out,endian);
             break;
         default:

@@ -31,15 +31,15 @@ struct VecToList
 
 BOOST_PYTHON_MODULE(SegyV2)
 {
-	scope().attr("BIG_ENDIAN") = (int)ENDIAN_BIG;
-	scope().attr("LITTLE_ENDIAN") = (int)ENDIAN_LITTLE;
-	scope().attr("IBM_FORMAT") = (int)FORMAT_IBM;
-	scope().attr("INT4_FORMAT") = (int)FORMAT_4INT;
-	scope().attr("INT2_FORMAT") = (int)FORMAT_2INT;
-	scope().attr("FIXPOINT4_FORMAT") = (int)FORMAT_4FIXEDPOINT;
-	scope().attr("IEEE4_FORMAT") = (int)FORMAT_4IEEE;
-	scope().attr("INT1_FORMAT") = (int)FORMAT_1INT;
-	scope().attr("IEEE8_FORMAT") = (int)FORMAT_8IEEE;
+    scope().attr("BIG_ENDIAN") = static_cast<int>(Endian::ENDIAN_BIG);
+    scope().attr("LITTLE_ENDIAN") = static_cast<int>(Endian::ENDIAN_LITTLE);
+    scope().attr("IBM_FORMAT") = static_cast<int>(Format::FORMAT_IBM);
+    scope().attr("INT4_FORMAT") = static_cast<int>(Format::FORMAT_4INT);
+    scope().attr("INT2_FORMAT") = static_cast<int>(Format::FORMAT_2INT);
+    scope().attr("FIXPOINT4_FORMAT") = static_cast<int>(Format::FORMAT_4FIXEDPOINT);
+    scope().attr("IEEE4_FORMAT") = static_cast<int>(Format::FORMAT_4IEEE);
+    scope().attr("INT1_FORMAT") = static_cast<int>(Format::FORMAT_1INT);
+    scope().attr("IEEE8_FORMAT") = static_cast<int>(Format::FORMAT_8IEEE);
 	class_< std::vector<std::string> >("VectorOfStr")
     .def(vector_indexing_suite< std::vector<std::string> >() )
     ;

@@ -11,11 +11,11 @@ class SuFileWrapper{
 public:
     SuFileWrapper(){}
 
-    SuFileWrapper(String path,size_t sampleCount):_sf(path,sampleCount,"rw",FieldMapper(),FORMAT_IBM, ENDIAN_BIG){
+    SuFileWrapper(String path,size_t sampleCount):_sf(path,sampleCount,"rw",FieldMapper(),Format::FORMAT_IBM, Endian::ENDIAN_BIG){
         //std::cout<<_sf.getTraceCount()<<std::endl;
     }
 
-    SuFileWrapper(String path,size_t sampleCount,String mode):_sf(path,sampleCount,mode,FieldMapper(),FORMAT_IBM,ENDIAN_BIG){
+    SuFileWrapper(String path,size_t sampleCount,String mode):_sf(path,sampleCount,mode,FieldMapper(),Format::FORMAT_IBM,Endian::ENDIAN_BIG){
         //std::cout<<_sf.getTraceCount()<<std::endl;
     }
 

@@ -45,8 +45,8 @@ void TestSegyFile::testCase1()
     SegyHeader sh;
     sh.set("sampleInterval",2000);
     sh.set("sampleCount",static_cast<int>(sampleCount));
-    sh.set("type",static_cast<int>(FORMAT_IBM));
-    std::shared_ptr<SegyFile<double> > sf(SegyFile<double>::createSegy("test.sgy",0,sh,ENDIAN_BIG));
+    sh.set("type",static_cast<int>(Format::FORMAT_IBM));
+    std::shared_ptr<SegyFile<double> > sf(SegyFile<double>::createSegy("test.sgy",0,sh,Endian::ENDIAN_BIG));
 
     std::random_device rd;
     std::mt19937 mt(rd());
@@ -66,7 +66,7 @@ void TestSegyFile::testCase1()
     sf->closeFile();
     sf.reset();
 
-    SegyFile<double> sf2("test.sgy","r",FieldMapper(),FieldMapper(),ENDIAN_BIG);
+    SegyFile<double> sf2("test.sgy","r",FieldMapper(),FieldMapper(),Endian::ENDIAN_BIG);
 
     for(size_t i=0;i<traceCount;++i){
         bool res=true;
@@ -86,7 +86,7 @@ void TestSegyFile::testCase2()
 {
     size_t sampleCount=100;
     size_t traceCount=1000;
-    std::shared_ptr<SuFile<double> > sf(SuFile<double>::createSu("test.su",sampleCount,FORMAT_IBM,ENDIAN_BIG));
+    std::shared_ptr<SuFile<double> > sf(SuFile<double>::createSu("test.su",sampleCount,Format::FORMAT_IBM,Endian::ENDIAN_BIG));
 
     std::random_device rd;
     std::mt19937 mt(rd());
@@ -111,7 +111,7 @@ void TestSegyFile::testCase2()
     sf->closeFile();
     sf.reset();
 
-    SuFile<double> sf2("test.su",sampleCount,"r",FieldMapper(),FORMAT_IBM,ENDIAN_BIG);
+    SuFile<double> sf2("test.su",sampleCount,"r",FieldMapper(),Format::FORMAT_IBM,Endian::ENDIAN_BIG);
 
     for(size_t i=0;i<traceCount;++i){
         bool res=true;

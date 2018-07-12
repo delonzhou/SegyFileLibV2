@@ -32,7 +32,7 @@ public:
         _headerCache.addObserver(this);
     }
 
-    SuFile(String path,size_t sampleCount,String mode="rw", const FieldMapper suTraceHeaderMapper = FieldMapper(),Format format=FORMAT_IBM, Endian endian = ENDIAN_BIG):
+    SuFile(String path,size_t sampleCount,String mode="rw", const FieldMapper suTraceHeaderMapper = FieldMapper(),Format format=Format::FORMAT_IBM, Endian endian = Endian::ENDIAN_BIG):
         _isOpen(false)
     {
         initTraceHeaderMapper(suTraceHeaderMapper);
@@ -46,9 +46,9 @@ public:
     }
 
 
-    void openFile(String path, size_t sampleCount, String mode = "rw", Format format=FORMAT_IBM, Endian endian = ENDIAN_BIG){
+    void openFile(String path, size_t sampleCount, String mode = "rw", Format format=Format::FORMAT_IBM, Endian endian = Endian::ENDIAN_BIG){
         if (isOpen())throw;
-        _endian = (endian == ENDIAN_UNDEFINED) ? ENDIAN_BIG : endian;
+        _endian = (endian == Endian::ENDIAN_UNDEFINED) ? Endian::ENDIAN_BIG : endian;
         if (mode == "w") _mode = Mode(false, true);
         else if (mode == "r")_mode = Mode(true, false);
         else if (mode == "rw" || mode == "wr") _mode = Mode(true, true);

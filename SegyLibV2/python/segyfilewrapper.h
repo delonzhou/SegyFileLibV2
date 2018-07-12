@@ -9,11 +9,11 @@ class SegyFileWrapper{
 public:
 	SegyFileWrapper(){}
 
-    SegyFileWrapper(String path):_sf(path,"rw",FieldMapper(),FieldMapper(),ENDIAN_BIG){
+    SegyFileWrapper(String path):_sf(path,"rw",FieldMapper(),FieldMapper(),Endian::ENDIAN_BIG){
 		//std::cout<<_sf.getTraceCount()<<std::endl;
 	}
 
-    SegyFileWrapper(String path,String mode):_sf(path,mode,FieldMapper(),FieldMapper(),ENDIAN_BIG){
+    SegyFileWrapper(String path,String mode):_sf(path,mode,FieldMapper(),FieldMapper(),Endian::ENDIAN_BIG){
 		//std::cout<<_sf.getTraceCount()<<std::endl;
 	}
 

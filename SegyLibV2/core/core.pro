@@ -33,7 +33,6 @@ SOURCES += \
     utils.cpp
 
 HEADERS += \
-    binaryfile.h \
     cache.h \
     iheader.h \
     iheaderfile.h \

@@ -33,11 +33,11 @@ void OneTraceStrategy::clear(){
 
 AllTraceStrategy::AllTraceStrategy(){}
 
-bool AllTraceStrategy::canAppendTrace(long long traceNum){
+bool AllTraceStrategy::canAppendTrace(long long traceNum)const{
     return true;
 }
 
-bool AllTraceStrategy::canLoadTrace(long long traceNum){
+bool AllTraceStrategy::canLoadTrace(long long traceNum) const{
     return true;
 }
 

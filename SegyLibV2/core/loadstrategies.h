@@ -6,8 +6,8 @@
 
 class ITraceStrategy{
 public:
-	virtual bool canAppendTrace(long long traceNum)=0;//Можно ли загрузить трассу traceNum без отгрузки других трасс
-    virtual bool canLoadTrace(long long traceNum)=0;//Можно ли загрузить трассу даже если придётся отгрузить другие трассы
+    virtual bool canAppendTrace(long long traceNum)const=0;//Можно ли загрузить трассу traceNum без отгрузки других трасс
+    virtual bool canLoadTrace(long long traceNum)const=0;//Можно ли загрузить трассу даже если придётся отгрузить другие трассы
     virtual void loadTrace(long long traceNum)=0;//Вызывается, что бы уведомить, что трасса была загружена
     virtual long long getUnloadTrace()=0;//Возвращает трассу, которую следует отгрузить, если таковой нет возвращает -1
     virtual void clear()=0; //Очищает список загруженных трасс
@@ -31,10 +31,10 @@ template<long long traceCount>
 class MultipleTraceStrategy:public ITraceStrategy{
 public:
 	MultipleTraceStrategy() :_unloadTrace(-1){}
-	bool canAppendTrace(long long traceNum){
+    bool canAppendTrace(long long traceNum)const{
 		return _loadedTraces.size()<traceCount;
 	}
-	bool canLoadTrace(long long traceNum){
+    bool canLoadTrace(long long traceNum)const{
 		return true;
 	}
 	void loadTrace(long long traceNum){
@@ -69,8 +69,8 @@ private:
 class AllTraceStrategy:public ITraceStrategy{
 public:
     AllTraceStrategy();
-	bool canAppendTrace(long long traceNum);
-	bool canLoadTrace(long long traceNum);
+    bool canAppendTrace(long long traceNum)const;
+    bool canLoadTrace(long long traceNum)const;
 	void loadTrace(long long traceNum);
 	long long getUnloadTrace();
     void clear();
