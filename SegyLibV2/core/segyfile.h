@@ -67,8 +67,8 @@ public:
 
 		//Считывание заголовка файла
 		readHeader(_header);
-        _format = (Format)boost::any_cast<int>(_header.get("type"));
-        _sampleCount = boost::any_cast<int>(_header.get("sampleCount"));
+        _format = (Format)boost::any_cast<int>(_header.get(SegyHeader::type));
+        _sampleCount = boost::any_cast<int>(_header.get(SegyHeader::sampleCount));
 
 		//Рассчет количества трасс
 		_file->seekg(0, std::ios_base::end);
@@ -128,13 +128,13 @@ public:
 		byte buff[lineHeaderSize];
 		memset(buff, 0, lineHeaderSize);
 
-		FieldMapper mmapper;
-		if (mapper == 0){
-            mmapper = SegyHeader::mapperInfo;
-		}
-		else{
+        FieldMapper mmapper=SegyHeader::mapperInfo;
+        //if (mapper == 0){
+        //    mmapper = SegyHeader::mapperInfo;
+        //}
+        if(mapper!=0){
 			mmapper = *mapper;
-		}
+        }
 
         segyHeaderToBinary(header, mmapper, endian,(char*) buff);
 

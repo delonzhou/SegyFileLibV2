@@ -43,9 +43,9 @@ void TestSegyFile::testCase1()
     size_t sampleCount=100;
     size_t traceCount=1000;
     SegyHeader sh;
-    sh.set("sampleInterval",2000);
-    sh.set("sampleCount",static_cast<int>(sampleCount));
-    sh.set("type",static_cast<int>(Format::FORMAT_IBM));
+    sh.set(SegyHeader::sampleInterval,2000);
+    sh.set(SegyHeader::sampleCount,static_cast<int>(sampleCount));
+    sh.set(SegyHeader::type,static_cast<int>(Format::FORMAT_IBM));
     std::shared_ptr<SegyFile<double> > sf(SegyFile<double>::createSegy("test.sgy",0,sh,Endian::ENDIAN_BIG));
 
     std::random_device rd;
@@ -93,8 +93,8 @@ void TestSegyFile::testCase2()
     std::uniform_real_distribution<double> dist(-1000.0, 1000.0);
 
     SuTraceHeader sth;
-    sth.set("sampleCount",static_cast<int>(sampleCount));
-    sth.set("sampleInterval",1000);
+    sth.set(SuTraceHeader::sampleCount,static_cast<int>(sampleCount));
+    sth.set(SuTraceHeader::sampleInterval,1000);
 
     std::vector<std::vector<double> > traces;
 
