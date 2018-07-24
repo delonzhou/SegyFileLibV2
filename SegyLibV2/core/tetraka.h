@@ -98,6 +98,46 @@ static inline bool isFileExist(const std::string& name) {
   return (stat (name.c_str(), &buffer) == 0);
 }
 
+#if defined(_WIN32) || defined(_WIN64)
+static inline bool isFileExist(const wchar_t* name) {
+  struct stat buffer;
+  return (_wstat(name, &buffer) == 0);
+}
+
+static inline bool isFileExist(const std::wstring& name) {
+  return isFileExist(name.c_str());
+}
+#endif
+
+#if defined(_WIN32) || defined(_WIN64)
+
+    static inline std::wstring utf8FilePathToPlatformFilePath(const std::string& utf8Path){
+        std::wstring ret;
+        int len = MultiByteToWideChar(CP_UTF8, 0, utf8Path.c_str(), utf8Path.length(), NULL, 0);
+        if (len > 0)
+        {
+            ret.resize(len);
+            MultiByteToWideChar(CP_UTF8, 0, utf8Path.c_str(), utf8Path.length(), &ret[0], len);
+        }
+        return ret;
+    }
+
+#elif defined(__unix__)
+
+    static inline std::string utf8FilePathToPlatformFilePath(const std::string& utf8Path){
+        return utf8Path;
+    }
+
+#endif
+
+static inline bool isFileExistUtf8(const char* name){
+    return isFileExist(utf8FilePathToPlatformFilePath(name));
+}
+
+static inline bool isFileExistUtf8(const std::string& name){
+    return isFileExistUtf8(name.c_str());
+}
+
 static inline bool isDirectoryExist(const char* path){
     struct stat buffer;
     if(stat (path, &buffer) == 0) return false;
@@ -107,6 +147,27 @@ static inline bool isDirectoryExist(const char* path){
 
 static inline bool isDirectoryExist(const std::string& path){
     return isDirectoryExist(path.c_str());
+}
+
+
+#if defined(_WIN32) || defined(_WIN64)
+static inline bool isDirectoryExist(const wchar_t* name) {
+  struct stat buffer;
+  return (_wstat(name, &buffer) == 0);
+}
+
+static inline bool isDirectoryExist(const std::wstring& name) {
+  return isDirectoryExist(name.c_str());
+}
+#endif
+
+
+static inline bool isDirectoryExistUtf8(const char* path){
+    return isDirectoryExist(utf8FilePathToPlatformFilePath(path));
+}
+
+static inline bool isDirectoryExistUtf8(const std::string& path){
+    return isDirectoryExistUtf8(path.c_str());
 }
 
 static inline bool isAbsolutePath(const char* path){
@@ -178,27 +239,6 @@ static inline void getFileName(const std::string& path,std::string &fileName){
         fileName=path.substr(pos+1);
     }
 }
-
-#if defined(_WIN32) || defined(_WIN64)
-
-    static inline std::wstring utf8FilePathToPlatformFilePath(const std::string& utf8Path){
-        std::wstring ret;
-        int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), NULL, 0);
-        if (len > 0)
-        {
-            ret.resize(len);
-            MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), &ret[0], len);
-        }
-        return ret;
-    }
-    
-#elif defined(__unix__)
-
-    static inline std::string utf8FilePathToPlatformFilePath(const std::string& utf8Path){
-        return utf8Path;
-    }
-
-#endif
 
 
 }

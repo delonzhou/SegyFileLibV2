@@ -1,3 +1,6 @@
+#ifndef SEGYFILE
+#define SEGYFILE
+
 #include "types.h"
 #include "utils.h"
 #include "itracedataheaderfile.h"
@@ -45,8 +48,8 @@ public:
 		fflush();
 	}
 
-	//Открытие файла
-    void openFile(String path, String mode = "rw", Endian endian = Endian::ENDIAN_BIG){
+
+    virtual void openFile(String path, String mode = "rw", Endian endian = Endian::ENDIAN_BIG){
 		if (isOpen())throw;
         _endian = (endian == Endian::ENDIAN_UNDEFINED) ? Endian::ENDIAN_BIG : endian;
 		if (mode == "w") _mode = Mode(false, true);
@@ -75,8 +78,8 @@ public:
 		long long pos = _file->tellg();
 		_totalTraceCount = perfomSegyTraceCount(pos, _sampleCount, getFormatSize(_format));
 	}
-	//Закрыть файл
-	void closeFile(){
+
+    virtual void closeFile(){
 		fflush();
 		_traceCache.clear();
 		_headerCache.clear();
@@ -85,34 +88,34 @@ public:
 		_file.reset();
 		_isOpen = false;
 	}
-	//
-	bool isOpen()const{
+
+    virtual bool isOpen()const{
 		return _isOpen;
 	}
 
 	//Устанавливает маппер для заголовка segy файла
-	void setHeaderMapper(const FieldMapper& mapper){
+    virtual void setHeaderMapper(const FieldMapper& mapper){
 		this->_headerMapper = mapper;
 		if (isOpen())
 			this->readHeader(_header);
 	}
 	//Устанавливает маппер для заголовков трасс segy файлов
-	void setTraceHeaderMapper(const FieldMapper& mapper){
+    virtual void setTraceHeaderMapper(const FieldMapper& mapper){
 		fflushHeaders();
 		_headerCache.clear();
 		initTraceHeaderMapper(mapper);
 	}
 	//Запись изменений в файл
-	void fflush(){
+    virtual void fflush(){
 		fflushHeaders();
 		fflushTraces();
 	}
 	//Возвращает ebcidic заголовок
-	const char* getEbcidicHeader(){
+    virtual const char* getEbcidicHeader()const{
 		return _ebcidicHeader;
 	}
 	//Возвращает количество сэмплов в каждой трассе
-	int getSampleCount()const{
+    virtual int getSampleCount()const{
 		return _sampleCount;
 	}
 
@@ -424,3 +427,6 @@ public:
 	FieldMapper _traceHeaderMapper;
 	SegyHeader _header;
 };
+
+
+#endif

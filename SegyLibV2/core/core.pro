@@ -48,7 +48,8 @@ HEADERS += \
     utils.h \
     tetraka.h \
     sutraceheader.h \
-    sufile.h
+    sufile.h \
+    concurrentsegyfile.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
