@@ -64,16 +64,16 @@ public:
 		_isOpen = true;
 		_file->seekg(0, std::ios_base::beg);
 
-		//Считывание ebcidic заголовка
+        //Reading ebcidic header
 		_file->read(_ebcidicHeader, 3200);
 		ebcdicToAscii((unsigned char*)_ebcidicHeader, (unsigned char*)_ebcidicHeader, 3200);
 
-		//Считывание заголовка файла
+        //Reading header
 		readHeader(_header);
-        _format = (Format)boost::any_cast<int>(_header.get(SegyHeader::type));
+        _format = static_cast<Format>(boost::any_cast<int>(_header.get(SegyHeader::type)));
         _sampleCount = boost::any_cast<int>(_header.get(SegyHeader::sampleCount));
 
-		//Рассчет количества трасс
+        //Calculating trace count
 		_file->seekg(0, std::ios_base::end);
 		long long pos = _file->tellg();
 		_totalTraceCount = perfomSegyTraceCount(pos, _sampleCount, getFormatSize(_format));
@@ -93,48 +93,52 @@ public:
 		return _isOpen;
 	}
 
-	//Устанавливает маппер для заголовка segy файла
+    //Setting mapper for segy file header
     virtual void setHeaderMapper(const FieldMapper& mapper){
 		this->_headerMapper = mapper;
 		if (isOpen())
 			this->readHeader(_header);
 	}
-	//Устанавливает маппер для заголовков трасс segy файлов
+    //Setting mapper for trace headers
     virtual void setTraceHeaderMapper(const FieldMapper& mapper){
 		fflushHeaders();
 		_headerCache.clear();
 		initTraceHeaderMapper(mapper);
 	}
-	//Запись изменений в файл
+    //Write buffered changes to disk
     virtual void fflush(){
 		fflushHeaders();
 		fflushTraces();
 	}
-	//Возвращает ebcidic заголовок
+    //Return ebcidic header
     virtual const char* getEbcidicHeader()const{
 		return _ebcidicHeader;
 	}
-	//Возвращает количество сэмплов в каждой трассе
+
+    //Set ebcidic header
+    virtual void setEbcidicHeader(const char* header){
+        std::copy(header,header+ebcidicHeaderSize,_ebcidicHeader);
+        char ebcidicData[ebcidicHeaderSize];
+        asciiToEbcidic(_ebcidicHeader,ebcidicData,ebcidicHeaderSize);
+
+        _file->seekg(0, std::ios_base::beg);
+        _file->write(ebcidicData,ebcidicHeaderSize);
+    }
+
     virtual int getSampleCount()const{
 		return _sampleCount;
 	}
 
-	//Создание segy файла
-	static SegyFile<TraceElementType>* createSegy(String path, const char* ebcidicHeader, const SegyHeader header, const Endian endian, const FieldMapper * mapper=0){
-        //if (tetraka::isFileExist(path.c_str()))throw;
+
+    static SegyFile<TraceElementType>* createSegy(String path, const SegyHeader header, const Endian endian, const FieldMapper * mapper=0){
 		std::fstream f(path, std::fstream::out | std::fstream::binary);
 
 		f.seekg(0, std::ios_base::beg);
-
-		if (ebcidicHeader != 0)f.write(ebcidicHeader, ebcidicHeaderSize);
 
 		byte buff[lineHeaderSize];
 		memset(buff, 0, lineHeaderSize);
 
         FieldMapper mmapper=SegyHeader::mapperInfo;
-        //if (mapper == 0){
-        //    mmapper = SegyHeader::mapperInfo;
-        //}
         if(mapper!=0){
 			mmapper = *mapper;
         }

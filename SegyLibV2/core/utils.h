@@ -29,6 +29,7 @@ void doubleToBytes4FixedPoint(const double num,byte* out,Endian endian);
 void doubleToBytes(const double num,byte* out,Format format,Endian endian);
 
 void ebcdicToAscii (unsigned char *source,unsigned char *dest,size_t length);
+void asciiToEbcidic(unsigned char* source, unsigned char* dest,size_t length);
 
 long long perfomSegyTraceCount(long long segySize, int samplePerTrace, int formatSize);
 long long perfomSuTraceCount(long long suSize, int samplePerTrace, int formatSize);
