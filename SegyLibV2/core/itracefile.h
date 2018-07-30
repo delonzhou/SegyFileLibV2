@@ -6,7 +6,7 @@
 class ITraceFile
 {
 public:
-	//Возвращает количество трасс
+    //Возвращает количество трасс
     virtual long long getTraceCount()const=0;
 };
 

@@ -40,7 +40,7 @@ BOOST_PYTHON_MODULE(SegyV2)
     scope().attr("IEEE4_FORMAT") = static_cast<int>(Format::FORMAT_4IEEE);
     scope().attr("INT1_FORMAT") = static_cast<int>(Format::FORMAT_1INT);
     scope().attr("IEEE8_FORMAT") = static_cast<int>(Format::FORMAT_8IEEE);
-	class_< std::vector<std::string> >("VectorOfStr")
+    class_< std::vector<std::string> >("VectorOfStr")
     .def(vector_indexing_suite< std::vector<std::string> >() )
     ;
 
@@ -61,25 +61,25 @@ BOOST_PYTHON_MODULE(SegyV2)
         .def("getDefaultFieldLocation",&SegyTraceHeaderWrapper::getDefaultFieldLocation,args("name")).staticmethod("getDefaultFieldLocation")
 ;
 
-	//to_python_converter<std::vector<double,class std::allocator<double> >, VecToList<double> >();
-	//class_<TraceData>("TraceData").def(vector_indexing_suite<TraceData>() );
-	class_<SegyFileWrapper>("SegyFile")
-		.def(init<String,String>(args("file","mode")))
-		.def(init<String>(args("file")))
-		.def("openFile", &SegyFileWrapper::openFile, args("file"))
-		.def("closeFile", &SegyFileWrapper::closeFile)
-		.def("isOpen", &SegyFileWrapper::isOpen)
-		.def("getSampleCount", &SegyFileWrapper::getSampleCount)
-		.def("getEbcidicHeader",&SegyFileWrapper::getEbcidicHeader)
-		.def("getTraceHeader", &SegyFileWrapper::getTraceHeader, args("traceNum"))
-		.def("setTraceHeader", &SegyFileWrapper::setTraceHeader, args("traceNum","traceHeader"))
-		.def("getTrace", &SegyFileWrapper::getTrace,args("traceNum"))
-		.def("setTrace", &SegyFileWrapper::setTrace, args("traceNum","traceData"))
-		.def("getTraceCount", &SegyFileWrapper::getTraceCount)
-		.def("getHeader", &SegyFileWrapper::getHeader)
-		.def("setHeader", &SegyFileWrapper::setHeader)
-		.def("fflush",&SegyFileWrapper::fflush)
-		.def("createSegy", &SegyFileWrapper::createSegy,return_value_policy<manage_new_object>()).staticmethod("createSegy")
+    //to_python_converter<std::vector<double,class std::allocator<double> >, VecToList<double> >();
+    //class_<TraceData>("TraceData").def(vector_indexing_suite<TraceData>() );
+    class_<SegyFileWrapper>("SegyFile")
+        .def(init<String,String>(args("file","mode")))
+        .def(init<String>(args("file")))
+        .def("openFile", &SegyFileWrapper::openFile, args("file"))
+        .def("closeFile", &SegyFileWrapper::closeFile)
+        .def("isOpen", &SegyFileWrapper::isOpen)
+        .def("getSampleCount", &SegyFileWrapper::getSampleCount)
+        .def("getEbcidicHeader",&SegyFileWrapper::getEbcidicHeader)
+        .def("getTraceHeader", &SegyFileWrapper::getTraceHeader, args("traceNum"))
+        .def("setTraceHeader", &SegyFileWrapper::setTraceHeader, args("traceNum","traceHeader"))
+        .def("getTrace", &SegyFileWrapper::getTrace,args("traceNum"))
+        .def("setTrace", &SegyFileWrapper::setTrace, args("traceNum","traceData"))
+        .def("getTraceCount", &SegyFileWrapper::getTraceCount)
+        .def("getHeader", &SegyFileWrapper::getHeader)
+        .def("setHeader", &SegyFileWrapper::setHeader)
+        .def("fflush",&SegyFileWrapper::fflush)
+        .def("createSegy", &SegyFileWrapper::createSegy,return_value_policy<manage_new_object>()).staticmethod("createSegy")
     ;
 
 

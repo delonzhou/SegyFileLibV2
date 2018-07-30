@@ -1,8 +1,8 @@
 #include "segyheader.h"
 
 SegyHeader::SegyHeader(){
-	for (std::map < std::string, FieldDetailInfo>::const_iterator it = detailInfo.begin(); it != detailInfo.end(); ++it)
-		fieldValue[it->first] = 0;
+    for (std::map < std::string, FieldDetailInfo>::const_iterator it = detailInfo.begin(); it != detailInfo.end(); ++it)
+        fieldValue[it->first] = 0;
 }
 
 boost::any SegyHeader::get(const std::string &fieldName) const{
@@ -16,7 +16,7 @@ void SegyHeader::set(const std::string &fieldName, boost::any value){
 }
 
 const std::vector<std::string>& SegyHeader::getFieldNames()const{
-	return fieldNames;
+    return fieldNames;
 }
 
 const std::string SegyHeader::jobId="jobId";
@@ -50,7 +50,7 @@ const std::string SegyHeader::segyFormat="segyFormat";
 const std::string SegyHeader::fixedLength="fixedLength";
 
 static std::map < std::string, FieldMappingInfo> initMapperInfo(){
-	std::map<std::string, FieldMappingInfo> mmap;
+    std::map<std::string, FieldMappingInfo> mmap;
     mmap[SegyHeader::jobId] = FieldMappingInfo(0, 4);
     mmap[SegyHeader::lineNumber] = FieldMappingInfo(4, 4);
     mmap[SegyHeader::reelNumber] = FieldMappingInfo(8, 4);
@@ -80,13 +80,13 @@ static std::map < std::string, FieldMappingInfo> initMapperInfo(){
     mmap[SegyHeader::polarityCode] = FieldMappingInfo(58, 2);
     mmap[SegyHeader::segyFormat]=FieldMappingInfo(300,2);
     mmap[SegyHeader::fixedLength]=FieldMappingInfo(302,2);
-	return mmap;
+    return mmap;
 }
 
 const std::map < std::string, FieldMappingInfo> SegyHeader::mapperInfo = initMapperInfo();
 
 static std::map < std::string, FieldDetailInfo> initDetailInfo(){
-	std::map<std::string, FieldDetailInfo> mmap;
+    std::map<std::string, FieldDetailInfo> mmap;
     mmap[SegyHeader::jobId] = FieldDetailInfo("Job identification number","Job identification number");
     mmap[SegyHeader::lineNumber] = FieldDetailInfo("Line number","For 3-D poststack data, this will typically contain the in-line number");
     mmap[SegyHeader::reelNumber] = FieldDetailInfo("Reel number","Reel number");
@@ -116,16 +116,16 @@ static std::map < std::string, FieldDetailInfo> initDetailInfo(){
     mmap[SegyHeader::polarityCode] = FieldDetailInfo("Vibratory polarity code","Seismic signal lags pilot signal by:\n1=337.5 to 22.5\n2=22.5 to 67.5\n3=67.5 to 112.5\n4=112.5 to 157.5\n5=157.5 to 202.5\n6=202.5 to 247.5\n7=247.5 to 292.5\n8=292.5 to 337.5");
     mmap[SegyHeader::segyFormat]=FieldDetailInfo("SEGY Format Revision Number","This is a 16-bit unsigned value with a Q-point between the first and second bytes. Thus for SEGY Revision 1.0, as difined in this document, this will be recorded as 0100_16. This field is mandatory for all version of SEGY, although a value of zero indicates \"traditional\" SEGY conforming to the 1975 standard.");
     mmap[SegyHeader::fixedLength]=FieldDetailInfo("Fixed length trace flag","A value of one indicates that all trace3s in this SEGY file are guaranteed to have the same sample interval and number of samples, as specified in Textual File Header bytes 3217-3218 and 3221-3222. A value of zero indicates that the length of the tracs in the file may vary and the number of sample in bytes 115-116 of the Trace Header must be examined to determine the actual lnegth of each trace. This field is mandatory for all version of SEGY, although a value of zero indicates \"traditional\" SEGY conforming to the 1975 standard.");
-	return mmap;
+    return mmap;
 }
 
 const std::map < std::string, FieldDetailInfo> SegyHeader::detailInfo=initDetailInfo();
 
 static std::vector<std::string> getFieldNamesFromMap(const std::map < std::string, FieldDetailInfo> fm){
-	std::vector<std::string> names;
-	for (std::map < std::string, FieldDetailInfo>::const_iterator it = fm.cbegin(); it != fm.cend(); ++it)
-		names.push_back(it->first);
-	return names;
+    std::vector<std::string> names;
+    for (std::map < std::string, FieldDetailInfo>::const_iterator it = fm.cbegin(); it != fm.cend(); ++it)
+        names.push_back(it->first);
+    return names;
 }
 
 const std::vector<std::string> SegyHeader::fieldNames = getFieldNamesFromMap(SegyHeader::detailInfo);

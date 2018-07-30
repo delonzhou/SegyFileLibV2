@@ -46,7 +46,7 @@ void TestSegyFile::testCase1()
     sh.set(SegyHeader::sampleInterval,2000);
     sh.set(SegyHeader::sampleCount,static_cast<int>(sampleCount));
     sh.set(SegyHeader::type,static_cast<int>(Format::FORMAT_IBM));
-    std::shared_ptr<SegyFile<double> > sf(SegyFile<double>::createSegy("test.sgy",0,sh,Endian::ENDIAN_BIG));
+    std::shared_ptr<SegyFile<double> > sf(SegyFile<double>::createSegy("test.sgy",sh,Endian::ENDIAN_BIG));
 
     std::random_device rd;
     std::mt19937 mt(rd());

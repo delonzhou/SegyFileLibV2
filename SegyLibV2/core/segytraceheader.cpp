@@ -2,9 +2,9 @@
 
 
 SegyTraceHeader::SegyTraceHeader(){
-	for (std::map < std::string, FieldDetailInfo>::const_iterator it = detailInfo.begin(); it != detailInfo.end(); ++it){
-		fieldValue[it->first] = 0;
-	}
+    for (std::map < std::string, FieldDetailInfo>::const_iterator it = detailInfo.begin(); it != detailInfo.end(); ++it){
+        fieldValue[it->first] = 0;
+    }
 }
 
 boost::any SegyTraceHeader::get(const std::string &fieldName) const{
@@ -19,7 +19,7 @@ void SegyTraceHeader::set(const std::string &fieldName, boost::any value){
 
 
 const std::vector<std::string>& SegyTraceHeader::getFieldNames()const{
-	return fieldNames;
+    return fieldNames;
 }
 
 const std::string SegyTraceHeader::traceNumberLine="traceNumberLine";
@@ -110,7 +110,7 @@ const std::string SegyTraceHeader::srcMeasurement="srcMeasurement";
 const std::string SegyTraceHeader::srcMeasurementUnit="srcMeasurementUnit";
 
 static std::map < std::string, FieldMappingInfo> initMapperInfo(){
-	std::map<std::string, FieldMappingInfo> mmap;
+    std::map<std::string, FieldMappingInfo> mmap;
     mmap[SegyTraceHeader::traceNumberLine] = FieldMappingInfo(0, 4);
     mmap[SegyTraceHeader::traceNumberReel] = FieldMappingInfo(4, 4);
     mmap[SegyTraceHeader::originalFieldRecordNumber] = FieldMappingInfo(8, 4);
@@ -197,13 +197,13 @@ static std::map < std::string, FieldMappingInfo> initMapperInfo(){
     mmap[SegyTraceHeader::srcEnergyDirection] = FieldMappingInfo(218, 6);
     mmap[SegyTraceHeader::srcMeasurement] = FieldMappingInfo(224, 6);
     mmap[SegyTraceHeader::srcMeasurementUnit] = FieldMappingInfo(230, 2);
-	return mmap;
+    return mmap;
 }
 
 const std::map < std::string, FieldMappingInfo> SegyTraceHeader::mapperInfo = initMapperInfo();
 
 static std::map < std::string, FieldDetailInfo> initDetailInfo(){
-	std::map<std::string, FieldDetailInfo> mmap;
+    std::map<std::string, FieldDetailInfo> mmap;
     mmap[SegyTraceHeader::traceNumberLine] = FieldDetailInfo("Trace sequence within line","Numbers continue to increase if the same line continues across multiple SEGY files (Highly recommended for all types of data)");
     mmap[SegyTraceHeader::traceNumberReel] = FieldDetailInfo("Trace sequence number within SEGY file","Each file starts with trace sequence one");
     mmap[SegyTraceHeader::originalFieldRecordNumber] = FieldDetailInfo("Original field record number");
@@ -296,10 +296,10 @@ static std::map < std::string, FieldDetailInfo> initDetailInfo(){
 const std::map < std::string, FieldDetailInfo> SegyTraceHeader::detailInfo = initDetailInfo();
 
 static std::vector<std::string> getFieldNamesFromMap(const std::map < std::string, FieldDetailInfo> fm){
-	std::vector<std::string> names;
-	for (std::map < std::string, FieldDetailInfo>::const_iterator it = fm.cbegin(); it != fm.cend(); ++it)
-		names.push_back(it->first);
-	return names;
+    std::vector<std::string> names;
+    for (std::map < std::string, FieldDetailInfo>::const_iterator it = fm.cbegin(); it != fm.cend(); ++it)
+        names.push_back(it->first);
+    return names;
 }
 
 const std::vector<std::string> SegyTraceHeader::fieldNames = getFieldNamesFromMap(SegyTraceHeader::detailInfo);

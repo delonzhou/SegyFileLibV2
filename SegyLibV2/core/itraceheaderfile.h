@@ -8,9 +8,9 @@
 class ITraceHeaderFile :public virtual ITraceFile
 {
 public:
-	//Возвращает заголовок трассы
+    //Возвращает заголовок трассы
     virtual const IHeader& getTraceHeader(long long traceNum)const=0;
-	//Задаёт заголовок трассы
+    //Задаёт заголовок трассы
     virtual bool setTraceHeader(long long traceNum,const IHeader& traceHeader)=0;
 };
 

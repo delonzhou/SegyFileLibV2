@@ -160,14 +160,14 @@ double bytesToDouble(const byte *buf,Format format,Endian endian){
 
 template<class T>
 T min(T a, T b){
-	if (a < b)return a;
-	return b;
+    if (a < b)return a;
+    return b;
 }
 
 void intToBytesSignedInt(const int num,byte* out,int length,Endian endian){
-	for (int i = 0; i < length; ++i)out[i] = 0;
+    for (int i = 0; i < length; ++i)out[i] = 0;
     int inum=num;
-	if (inum < 0)for (int i = 0; i < length; ++i)out[i] = 255;
+    if (inum < 0)for (int i = 0; i < length; ++i)out[i] = 255;
     byte* bytes=(byte*)&inum;
 
     if(currentEndian==Endian::ENDIAN_BIG && endian==Endian::ENDIAN_BIG)
@@ -187,10 +187,10 @@ void doubleToBytesSignedInt(const double num,byte* out,int length,Endian endian)
 void doubleToBytesIBM(const double num,byte* out,Endian endian){
 
     float fnum=num;
-	if (fnum < FLT_MIN && (-fnum)<FLT_MIN)fnum = 0;
-	if (fnum > FLT_MAX)fnum = FLT_MAX;
-	if (fnum < -FLT_MAX)fnum = -FLT_MAX;
-	if (!(fnum == fnum)) fnum = 0;
+    if (fnum < FLT_MIN && (-fnum)<FLT_MIN)fnum = 0;
+    if (fnum > FLT_MAX)fnum = FLT_MAX;
+    if (fnum < -FLT_MAX)fnum = -FLT_MAX;
+    if (!(fnum == fnum)) fnum = 0;
 
     unsigned fr; /* fraction */
     int exp; /* exponent */
@@ -233,10 +233,10 @@ done:
 
 void doubleToBytes4IEEE(const double num,byte* out,Endian endian){
     float fnum=num;
-	if (fnum < FLT_MIN && (-fnum)<FLT_MIN)fnum = 0;
-	if (fnum > FLT_MAX)fnum = FLT_MAX;
-	if (fnum < -FLT_MAX)fnum = -FLT_MAX;
-	if (!(fnum == fnum)) fnum = 0;
+    if (fnum < FLT_MIN && (-fnum)<FLT_MIN)fnum = 0;
+    if (fnum > FLT_MAX)fnum = FLT_MAX;
+    if (fnum < -FLT_MAX)fnum = -FLT_MAX;
+    if (!(fnum == fnum)) fnum = 0;
     byte *b=(byte*)&fnum;
     if(endian!=currentEndian)
         for(int i=0;i<4;++i) out[i]=b[3-i];

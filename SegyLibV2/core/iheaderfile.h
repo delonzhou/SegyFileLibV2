@@ -8,10 +8,10 @@
 class IHeaderFile
 {
 public:
-	//Возвращает заголовок файла
+    //Возвращает заголовок файла
     virtual const IHeader& getHeader()const=0;
 
-	//Задаёт заголовок файла
+    //Задаёт заголовок файла
     virtual bool setHeader(const IHeader& header)=0;
 };
 

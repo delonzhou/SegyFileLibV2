@@ -11,7 +11,7 @@
 #if defined(_WIN32) || defined(_WIN64)
     #include <sys/types.h>
     #include <sys/stat.h>
-	#include <direct.h>
+    #include <direct.h>
     #define stat _stat
 #elif defined(__unix__)
     #include <sys/stat.h>
@@ -204,7 +204,7 @@ static inline bool createDirectory(const char* dirPath){
     #if defined(_WIN32) || defined(_WIN64)
       nError = _mkdir(dirPath);
     #else
-	  mode_t nMode = 0733;
+      mode_t nMode = 0733;
       nError = mkdir(dirPath,nMode);
     #endif
     return nError==0;

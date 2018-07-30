@@ -21,7 +21,7 @@ void OneTraceStrategy::loadTrace(long long traceNum){
 }
 
 long long OneTraceStrategy::getUnloadTrace(){
-	long long temp = _unloadTrace;
+    long long temp = _unloadTrace;
     _unloadTrace=-1;
     return temp;
 }
